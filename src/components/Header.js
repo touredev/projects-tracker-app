@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
@@ -45,26 +46,25 @@ const NavItem = styled.li`
   }
 `;
 
-const Header = ({ title }) => {
+const Header = ({ title, user, logout }) => {
   return (
     <Container>
       <Title>{title}</Title>
       <Nav>
         <ul className="">
           <NavItem>
-            <a className="active-link" aria-current="page" href="#">
+            <Link className="active-link" to="/">
               Home
-            </a>
+            </Link>
           </NavItem>
           <NavItem>
-            <a className="" href="#">
-              Sign in
-            </a>
-          </NavItem>
-          <NavItem>
-            <a className="" href="#">
-              Sign up
-            </a>
+            {user ? (
+              <Link to="" onClick={logout}>
+                Logout
+              </Link>
+            ) : (
+              <Link to="/login">Sign in</Link>
+            )}
           </NavItem>
         </ul>
       </Nav>
@@ -74,10 +74,13 @@ const Header = ({ title }) => {
 
 Header.defaultProps = {
   title: "Projects Tracker App",
+  user: null,
 };
 
 Header.propTypes = {
   title: PropTypes.string.isRequired,
+  user: PropTypes.object,
+  logout: PropTypes.func,
 };
 
 export default Header;

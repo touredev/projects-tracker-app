@@ -5,7 +5,7 @@ const Container = styled.div`
   width: 33%;
   padding-left: 2rem;
   padding-right: 2rem;
-  margin-bottom: 4rem;
+  margin-bottom: 1rem;
   box-sizing: border-box;
   border-width: 0;
   border-style: solid;
@@ -31,7 +31,7 @@ const Title = styled.h1`
 `;
 
 const Tags = styled.div`
-  color: rgba(97, 97, 97, 1);
+  color: rgba(0, 0, 238, 1);
   margin-bottom: 0.75rem;
   font-size: 0.875rem;
   line-height: 1.25rem;

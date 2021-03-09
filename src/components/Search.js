@@ -37,7 +37,7 @@ const Search = ({ searchText, onSearchTextChange }) => {
         type="search"
         title="Search"
         value={searchText}
-        placeholder="Rechercher un projet"
+        placeholder="Search project..."
         onChange={changeText}
       />
     </Container>

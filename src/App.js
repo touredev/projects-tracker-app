@@ -1,52 +1,67 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Header from "./components/Header";
-import Search from "./components/Search";
-import ProjectsList from "./components/ProjectsList";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+
 import styled from "styled-components";
 
-const Container = styled.div`
+const Main = styled.div`
   margin: 0;
 `;
 
 function App() {
-  const [projects, setProjects] = useState([]);
-  const [searchText, setSearchText] = useState("");
+  const [user, setUser] = useState({});
+  const [authToken, setToken] = useState(null);
 
   useEffect(() => {
-    setProjects([
-      {
-        title: "Project 1",
-        tags: "#Web, #JavaScript, #React",
-        description: `A bit of Background Kids spending time on phones, tablets, computers is not very unnatural nowadays. Indeed lots to learn from online resources, apps, books, etc. The problem at my home was a bit different, though. My daughter felt it quite dull 🙄 t...
-  `,
-      },
-      {
-        title: "Project 2",
-        tags: "#API, #NodeJs, #PostgreSQL",
-        description: `Today the world is fast, hectic, and demanding. Everyone is in a rush to meet deadlines, making decisions, accomplishing goals, receiving rewards. From getting things done in seconds using smartphones to e-shops delivering products using drones, spee...
-  `,
-      },
-      {
-        title: "Project 3",
-        tags: "#Java, #Spring, #Microservices",
-        description: `Gatsby is one of the most popular Static Site Generators available to create pre-built markups for Jamstack apps. It is a React-based framework that offers a plethora of plug-in ecosystems to make life comfortable for the developer community. I have ...
-  `,
-      },
-    ]);
+    const token = localStorage.getItem("react_auth_token");
+    if (token) {
+      const username = localStorage.getItem("react_auth_user");
+      setToken(token);
+      setUser({ username });
+    }
   }, []);
 
-  function changeSearchText(textString) {
-    setSearchText(textString);
-  }
+  // Login
+  const authenticateUser = ({ username, password }) => {
+    const token =
+      Math.random().toString(36).substring(2, 15) +
+      Math.random().toString(36).substring(2, 15);
+    localStorage.setItem("react_auth_token", token);
+    localStorage.setItem("react_auth_user", username);
+  };
+
+  // Logout
+  const logout = () => {
+    localStorage.removeItem("react_auth_token");
+    localStorage.removeItem("react_auth_user");
+    setToken(null);
+    setUser(null);
+  };
 
   return (
-    <Container>
-      <Header title="Projects Tracker App" />
+    <Router>
       <>
-        <Search searchText={searchText} onSearchTextChange={changeSearchText} />
-        <ProjectsList projects={projects} filterText={searchText} />
+        <Switch>
+          <Route path="/login">
+            <Login authenticate={authenticateUser} authToken={authToken} />
+          </Route>
+          <Route path="/home">
+            <Header title="Projects Tracker App" user={user} logout={logout} />
+            <Main>
+              <Home authToken={authToken} />
+            </Main>
+          </Route>
+          <Route path="/" exact>
+            <Header title="Projects Tracker App" user={user} logout={logout} />
+            <Main>
+              <Home authToken={authToken} />
+            </Main>
+          </Route>
+        </Switch>
       </>
-    </Container>
+    </Router>
   );
 }
 

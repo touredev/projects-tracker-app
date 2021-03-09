@@ -21,7 +21,7 @@ const ProjectsList = ({ projects, filterText }) => {
   const itemsList = [];
 
   projects.forEach((item, index) => {
-    if (item.title.indexOf(filterText) === -1) {
+    if (item.title.toLowerCase().indexOf(filterText) === -1) {
       return;
     }
 
@@ -33,7 +33,7 @@ const ProjectsList = ({ projects, filterText }) => {
       {itemsList.length !== 0 ? (
         itemsList
       ) : (
-        <p className="no__result">No project matches!</p>
+        <p className="no__result">No match!</p>
       )}
     </Container>
   );
