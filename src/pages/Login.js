@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
@@ -62,19 +62,23 @@ const SubmitButton = styled.input`
   cursor: pointer;
 `;
 
-const Login = ({ authenticate, authToken }) => {
+const Login = ({ setToken, token }) => {
   const { register, handleSubmit, errors } = useForm();
-  const history = useHistory();
+
+  // Login
+  const loginUser = ({ username, password }) => {
+    const authToken =
+      Math.random().toString(36).substring(2, 15) +
+      Math.random().toString(36).substring(2, 15);
+    setToken(authToken);
+  };
 
   const onSubmit = (data) => {
     console.log(data);
-    authenticate(data);
-    history.push("/");
+    loginUser(data);
   };
 
-  console.log(authToken);
-
-  if (authToken !== null && authToken !== "") {
+  if (token) {
     return <Redirect to={"/"} />;
   }
 
@@ -106,12 +110,12 @@ const Login = ({ authenticate, authToken }) => {
 };
 
 Login.defaultProps = {
-  authToken: "",
+  token: "",
 };
 
 Login.propTypes = {
-  authenticate: PropTypes.func,
-  authToken: PropTypes.string,
+  setToken: PropTypes.func.isRequired,
+  token: PropTypes.string,
 };
 
 export default Login;

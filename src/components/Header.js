@@ -29,7 +29,7 @@ const Nav = styled.nav`
 
 const Title = styled.p`
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 2.3rem;
   padding-left: 21rem;
 `;
 
@@ -46,7 +46,7 @@ const NavItem = styled.li`
   }
 `;
 
-const Header = ({ title, user, logout }) => {
+const Header = ({ title, token, logout }) => {
   return (
     <Container>
       <Title>{title}</Title>
@@ -58,7 +58,7 @@ const Header = ({ title, user, logout }) => {
             </Link>
           </NavItem>
           <NavItem>
-            {user ? (
+            {token ? (
               <Link to="" onClick={logout}>
                 Logout
               </Link>
@@ -74,12 +74,12 @@ const Header = ({ title, user, logout }) => {
 
 Header.defaultProps = {
   title: "Projects Tracker App",
-  user: null,
+  token: "",
 };
 
 Header.propTypes = {
   title: PropTypes.string.isRequired,
-  user: PropTypes.object,
+  token: PropTypes.string,
   logout: PropTypes.func,
 };
 

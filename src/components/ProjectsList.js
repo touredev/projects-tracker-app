@@ -12,8 +12,9 @@ const Container = styled.div`
   padding: 2rem 10rem;
   p.no__result {
     text-align: center;
-    font-size: 1.7rem;
-    padding-left: 21rem;
+    font-size: 1.5rem;
+    padding-left: 25rem;
+    letter-spacing: 0.1rem;
   }
 `;
 
@@ -30,7 +31,7 @@ const ProjectsList = ({ projects, filterText }) => {
 
   return (
     <Container>
-      {itemsList.length !== 0 ? (
+      {itemsList.length > 0 ? (
         itemsList
       ) : (
         <p className="no__result">No match!</p>
