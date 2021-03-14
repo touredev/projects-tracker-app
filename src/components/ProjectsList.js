@@ -21,12 +21,12 @@ const Container = styled.div`
 const ProjectsList = ({ projects, filterText }) => {
   const itemsList = [];
 
-  projects.forEach((item, index) => {
-    if (item.title.toLowerCase().indexOf(filterText) === -1) {
+  projects.forEach((project) => {
+    if (project.title.toLowerCase().indexOf(filterText) === -1) {
       return;
     }
 
-    itemsList.push(<Project key={index} {...item} />);
+    itemsList.push(<Project key={project.id} {...project} />);
   });
 
   return (

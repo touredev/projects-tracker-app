@@ -1,4 +1,7 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { IconContext } from "react-icons";
+import { TiStarburst } from "react-icons/ti";
 import PropTypes from "prop-types";
 
 const Container = styled.div`
@@ -28,6 +31,7 @@ const Title = styled.h1`
   font-size: 1.875rem;
   line-height: 2.25rem;
   letter-spacing: -0.025em;
+  cursor: pointer;
 `;
 
 const Tags = styled.div`
@@ -50,12 +54,39 @@ const Text = styled.div`
   display: block;
 `;
 
-const Project = ({ title, tags, description }) => {
+const iconColor = (status) => {
+  const colors = {
+    "in-progress": "yellow",
+    done: "green",
+    "to-do": "red",
+  };
+  return colors[status];
+};
+
+const Project = ({ id, title, tags, description, status }) => {
   return (
     <Container>
       <Wrapper>
         <div>
-          <Title>{title}</Title>
+          <Link to={`/projects/${id}`} style={{ textDecoration: "none" }}>
+            <Title title={status}>
+              {title}
+              <IconContext.Provider
+                value={{
+                  style: {
+                    verticalAlign: "middle",
+                    color: iconColor(status),
+                    height: "0.8em",
+                    width: "0.8em",
+                    paddingLeft: "0.7em",
+                  },
+                }}
+              >
+                <TiStarburst />
+              </IconContext.Provider>
+            </Title>
+          </Link>
+
           <Tags>
             <span>{tags}</span>
           </Tags>
@@ -73,9 +104,11 @@ Project.defaultProps = {
 };
 
 Project.propTypes = {
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   tags: PropTypes.string.isRequired,
   description: PropTypes.string,
+  status: PropTypes.string.isRequired,
 };
 
 export default Project;
