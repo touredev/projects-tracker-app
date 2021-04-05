@@ -3,16 +3,16 @@ import PropTypes from "prop-types";
 
 const Container = styled.div`
   margin: 3rem auto;
-  width: 600px;
+  width: 500px;
 `;
 
 const Input = styled.input`
   border-radius: 25px;
   border: 1px solid #dcdcdc;
   padding: 20px;
-  width: 500px;
+  width: 100%;
   height: 30px;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   text-align: center;
   color: #000;
   &:hover {

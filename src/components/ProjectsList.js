@@ -1,42 +1,34 @@
-import styled from "styled-components";
 import Project from "./Project";
 import PropTypes from "prop-types";
-
-const Container = styled.div`
-  margin: 0 auto;
-  max-width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  align-content: center;
-  padding: 2rem 10rem;
-  p.no__result {
-    text-align: center;
-    font-size: 1.5rem;
-    padding-left: 25rem;
-    letter-spacing: 0.1rem;
-  }
-`;
 
 const ProjectsList = ({ projects, filterText }) => {
   const itemsList = [];
 
-  projects.forEach((project) => {
+  projects.forEach((project, i) => {
     if (project.title.toLowerCase().indexOf(filterText) === -1) {
       return;
     }
 
-    itemsList.push(<Project key={project.id} {...project} />);
+    itemsList.push(
+      <div className="column is-one-third" key={i}>
+        <Project {...project} />
+      </div>
+    );
   });
 
   return (
-    <Container>
+    <div className="container columns is-multiline is-flex is-flex-wrap-wrap is-flex-direction-row">
       {itemsList.length > 0 ? (
         itemsList
       ) : (
-        <p className="no__result">No match!</p>
+        <div
+          className="content is-flex is-justify-content-center is-align-content-center pl-6 pt-5"
+          style={{ width: "80%", textAlign: "center" }}
+        >
+          <p>No match!</p>
+        </div>
       )}
-    </Container>
+    </div>
   );
 };
 

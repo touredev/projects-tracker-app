@@ -1,74 +1,55 @@
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import styled from "styled-components";
-
-const Container = styled.header`
-  display: flex;
-  align-items: center;
-  align-content: space-between;
-  justify-content: center;
-  padding: 0 3rem;
-  text-align: center;
-  background-color: #fbfff5;
-`;
-
-const Nav = styled.nav`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-left: 15rem;
-  ul {
-    list-style-type: none;
-    list-style: none;
-  }
-  ul li {
-    display: inline;
-    margin-right: 1rem;
-  }
-`;
-
-const Title = styled.p`
-  text-align: center;
-  font-size: 2.3rem;
-  padding-left: 21rem;
-`;
-
-const NavItem = styled.li`
-  text-align: right;
-  a {
-    text-decoration: none;
-    color: black;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-  a.active-link {
-    font-weight: 700;
-  }
-`;
 
 const Header = ({ title, token, logout }) => {
   return (
-    <Container>
-      <Title>{title}</Title>
-      <Nav>
-        <ul className="">
-          <NavItem>
-            <Link className="active-link" to="/">
-              Home
-            </Link>
-          </NavItem>
-          <NavItem>
-            {token ? (
-              <Link to="" onClick={logout}>
-                Logout
-              </Link>
-            ) : (
-              <Link to="/login">Sign in</Link>
-            )}
-          </NavItem>
-        </ul>
-      </Nav>
-    </Container>
+    <header
+      className="navbar is-light p-4"
+      role="navigation"
+      aria-label="main navigation"
+    >
+      <div className="navbar-brand ml-3 pr-6" style={{ paddingLeft: "12rem" }}>
+        <Link className="navbar-item" to="/">
+          <h1 className="title is-3">{title}</h1>
+        </Link>
+        <a
+          role="button"
+          className="navbar-burger"
+          aria-label="menu"
+          aria-expanded="false"
+          data-target="projectsTrackerMenu"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div className="navbar-menu is-active" id="projectsTrackerMenu">
+        <div className="navbar-start">
+          <Link className="navbar-item has-text-weight-semibold" to="/">
+            Home
+          </Link>
+          <Link className="navbar-item" to="/">
+            About
+          </Link>
+        </div>
+        <div className="navbar-end pr-6">
+          <div className="navbar-item">
+            <div className="buttons">
+              {token ? (
+                <Link to="" onClick={logout} className="button is-link">
+                  Logout
+                </Link>
+              ) : (
+                <Link to="/login" className="button is-link">
+                  Sign in
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
   );
 };
 

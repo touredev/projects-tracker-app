@@ -3,24 +3,6 @@ import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-  h3 {
-    margin-top: 1.2rem;
-    font-size: 1.7rem;
-    letter-spacing: 1px;
-    color: #4f46a5;
-  }
-
-  h1 {
-    margin: 4rem 0;
-    letter-spacing: 1px;
-  }
-`;
-
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,29 +15,14 @@ const FormContainer = styled.div`
   }
 `;
 
-const InputField = styled.input`
-  height: 46px;
-  padding: 0 1rem;
-  margin: 0.5rem 0;
-  border: 2px solid #dcdcdc;
-  border-radius: 4px;
-  outline: 0;
-  transition: 0.2s;
-  margin-top: 20px;
-  font-family: "Merriweather", serif;
-  font-weight: 500;
-  &:focus {
-    border-color: #000;
-  }
-`;
-
 const SubmitButton = styled.input`
   padding: 12px 10px;
   border: 0;
   background: linear-gradient(to right, #de48b5 0%, #0097ff 100%);
   border-radius: 3px;
-  margin-top: 2rem;
-  font-weight: 500;
+  margin-top: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
   color: #fff;
   letter-spacing: 1px;
   font-family: "Merriweather", serif;
@@ -63,7 +30,11 @@ const SubmitButton = styled.input`
 `;
 
 const Login = ({ setToken, token }) => {
-  const { register, handleSubmit, errors } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   // Login
   const loginUser = ({ username, password }) => {
@@ -83,29 +54,36 @@ const Login = ({ setToken, token }) => {
   }
 
   return (
-    <Wrapper>
-      <h1>Projects Tracker App</h1>
-      <h3>Sign In</h3>
+    <div className="container is-fluid is-flex is-flex-direction-column is-align-content-center is-align-items-center">
+      <h1 className="title mt-6 mb-6" style={{ letterSpacing: "1px" }}>
+        Projects Tracker App
+      </h1>
+      <h3
+        style={{ letterSpacing: "1px", color: "#4f46a5" }}
+        className="title is-size-3 has-text-centered has-text-weight-medium mt-4"
+      >
+        Sign In
+      </h3>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormContainer>
-          <InputField
+          <input
+            className="input is-normal mt-3 mb-3 pl-4 pr-4"
             type="text"
             placeholder="Username"
-            name="username"
-            ref={register({ required: true })}
+            {...register("username", { required: true })}
           />
           {errors.username && <span>This field is required</span>}
-          <InputField
+          <input
+            className="input is-normal mt-3 mb-3 pl-4 pr-4"
             type="password"
             placeholder="Password"
-            name="password"
-            ref={register({ required: true })}
+            {...register("password", { required: true })}
           />
           {errors.password && <span>This field is required</span>}
           <SubmitButton type="submit" value="Login" />
         </FormContainer>
       </form>
-    </Wrapper>
+    </div>
   );
 };
 

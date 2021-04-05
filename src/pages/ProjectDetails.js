@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import styled from "styled-components";
 import NotFound from "./NotFound";
+import ProjectForm from "../components/ProjectForm";
 
 const Container = styled.div`
   margin: 0 auto;
-  max-width: 70%;
-  padding-left: 5rem;
+  max-width: 75%;
+  padding-left: 4rem;
   padding-top: 2rem;
   display: flex;
   flex-direction: column;
@@ -28,13 +29,8 @@ const Container = styled.div`
     font-weight: 700;
   }
 
-  li .data,
-  .tags {
+  li .data {
     text-transform: capitalize;
-  }
-
-  li .tags {
-    color: #357edd;
   }
 
   li p.description {
@@ -44,61 +40,30 @@ const Container = styled.div`
   }
 `;
 
-const Title = styled.p`
-  color: rgba(51, 51, 51, 1);
-  margin-bottom: 0.75rem;
-  font-size: 1.875rem;
-  line-height: 2.25rem;
-  letter-spacing: -0.025em;
-  cursor: pointer;
-`;
-
-const Buttons = styled.div`
-  max-width: 18%;
-  display: flex;
-  align-items: center;
-  align-content: center;
-  justify-content: space-between;
-  text-align: center;
-`;
-
-const ButtonElt = styled.button`
-  border: none;
-  border-radius: 0.5rem;
-  display: inline-block;
-  padding: 0.5rem 0.8rem;
-  font-size: 0.9em;
-  line-height: 1;
-  font-weight: 600;
-  color: #ffffff;
-  background-color: ${(props) => props.bgColor || "rgba(51, 51, 51, 1)"};
-  cursor: pointer;
-`;
-
-const StatusBadge = styled.p`
-  margin-left: 7rem;
-  width: ${(props) => props.widthValue || "4rem"};
-  text-transform: uppercase;
-  font-weight: 700;
-  color: ${(props) => props.textColor || "black"};
-  background-color: ${(props) => props.bgColor || "white"};
+const FormContainer = styled.div`
+  padding-left: 6rem;
+  padding-top: 1rem;
 `;
 
 const badgeStyle = {
-  "in-progress": { bgColor: "yellow", widthValue: "8rem" },
-  done: { textColor: "white", bgColor: "green" },
-  "to-do": { bgColor: "red", textColor: "white", widthValue: "5rem" },
+  "in-progress": "is-warning",
+  done: "is-success",
+  "to-do": "is-danger",
 };
 
 const ProjectDetails = () => {
   const { projectId } = useParams();
   const [project, setProject] = useState({});
+  const [isLoading, setLoading] = useState(true);
+  const [isEditing, setEditing] = useState(false);
+
   console.log(projectId);
 
   useEffect(() => {
     const getProject = async () => {
       const currentProject = await fetchProject(projectId);
       setProject(currentProject);
+      setLoading(false);
     };
 
     getProject();
@@ -112,43 +77,88 @@ const ProjectDetails = () => {
     return data;
   };
 
+  const updateProject = async (data) => {
+    let res = await fetch(`http://localhost:5000/projects/${data.id}`, {
+      method: "PUT",
+      body: JSON.stringify({ ...data }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+
+    res = await res.json();
+    console.log(res);
+    setProject(res);
+    setEditing(false);
+  };
+
+  if (isLoading) {
+    return null;
+  }
+
   if (!project?.id) {
     return <NotFound />;
   }
 
   return (
-    <Container>
-      <Title>{project.title}</Title>
-      <ul>
-        <li>
-          <span>Status:</span>
-          <StatusBadge {...badgeStyle[project.status]}>
-            {project.status}
-          </StatusBadge>
-        </li>
-        <li>
-          <span>Start date:</span> <p className="data">December 24, 2020</p>
-        </li>
-        <li>
-          <span>End date:</span> <p className="data">January 31, 2021</p>
-        </li>
-        <li>
-          <span>Tags:</span> <p className="tags">{project.tags}</p>
-        </li>
-        <li>
-          <span>Description:</span>
-          <p className="description">{project.description}</p>
-        </li>
-      </ul>
-      <Buttons>
-        <ButtonElt type="button" bgColor="#357edd">
-          Edit
-        </ButtonElt>
-        <Link to="/">
-          <ButtonElt type="button">Go back</ButtonElt>
-        </Link>
-      </Buttons>
-    </Container>
+    <>
+      {isEditing ? (
+        <FormContainer>
+          <ProjectForm
+            project={project}
+            formAction={updateProject}
+            setEditing={setEditing}
+          />
+        </FormContainer>
+      ) : (
+        <Container>
+          <h3 className="title is-3">{project.title}</h3>
+          <ul>
+            <li>
+              <span>Status:</span>
+              <p
+                className={`tag is-medium ${badgeStyle[project.status]}`}
+                style={{ fontWeight: "500", textTransform: "uppercase" }}
+              >
+                {project.status}
+              </p>
+            </li>
+            <li>
+              <span>Start date:</span> <p className="data">December 24, 2020</p>
+            </li>
+            <li>
+              <span>End date:</span> <p className="data">January 31, 2021</p>
+            </li>
+            <li>
+              <span>Tags:</span>
+              <p
+                style={{
+                  color: "rgba(0, 0, 238, 1)",
+                  textTransform: "capitalize",
+                }}
+              >
+                {project.tags.map((tag) => `#${tag}`).join(", ")}
+              </p>
+            </li>
+            <li>
+              <span>Description:</span>
+              <p className="description">{project.description}</p>
+            </li>
+          </ul>
+          <div className="buttons">
+            <button
+              className="button is-link mr-2"
+              onClick={() => setEditing(true)}
+            >
+              Edit
+            </button>
+            <Link to="/" className="button is-link is-light">
+              Go back
+            </Link>
+          </div>
+        </Container>
+      )}
+    </>
   );
 };
 
