@@ -1,7 +1,8 @@
+import * as React from "react";
 import { useForm } from "react-hook-form";
 import { Redirect } from "react-router-dom";
 import styled from "styled-components";
-import PropTypes from "prop-types";
+import { AppContext } from "../context/AppContext";
 
 const FormContainer = styled.div`
   display: flex;
@@ -29,7 +30,9 @@ const SubmitButton = styled.input`
   cursor: pointer;
 `;
 
-const Login = ({ setToken, token }) => {
+const Login = () => {
+  const { userToken, dispatch } = React.useContext(AppContext);
+
   const {
     register,
     handleSubmit,
@@ -41,7 +44,12 @@ const Login = ({ setToken, token }) => {
     const authToken =
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15);
-    setToken(authToken);
+    const payload = { userToken: authToken, user: { username } };
+    sessionStorage.setItem("react_data", JSON.stringify({ ...payload }));
+    dispatch({
+      type: "LOGIN_USER",
+      payload: { ...payload },
+    });
   };
 
   const onSubmit = (data) => {
@@ -49,7 +57,7 @@ const Login = ({ setToken, token }) => {
     loginUser(data);
   };
 
-  if (token) {
+  if (userToken) {
     return <Redirect to={"/"} />;
   }
 
@@ -86,14 +94,4 @@ const Login = ({ setToken, token }) => {
     </div>
   );
 };
-
-Login.defaultProps = {
-  token: "",
-};
-
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired,
-  token: PropTypes.string,
-};
-
 export default Login;

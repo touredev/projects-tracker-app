@@ -1,27 +1,25 @@
 {
   "projects": [
     {
-      "title": "Project 1 - React",
+      "title": "Open Airlines",
       "description": "A bit of Background Kids spending time on phones, tablets, computers is not very unnatural nowadays. Indeed lots to learn from online resources, apps, books, etc. The problem at my home was a bit different, though. My daughter felt it quite dull 🙄 t...",
       "status": "in-progress",
       "tags": [
-        "React",
-        "JavaScript",
-        "NodeJs",
+        "API",
+        "Python",
+        "PostgreSQL",
         "Web"
       ],
       "id": "p0001"
     },
     {
-      "title": "Project 2",
+      "title": "SortyUrl",
       "description": "Today the world is fast, hectic, and demanding. Everyone is in a rush to meet deadlines, making decisions, accomplishing goals, receiving rewards. From getting things done in seconds using smartphones to e-shops delivering products using drones, spee...",
       "status": "in-progress",
       "tags": [
         "API",
-        "Microservices",
-        "JavaScript",
-        "Python",
-        "PostgreSQL"
+        "React",
+        "NodeJs"
       ],
       "id": "p0002"
     },
@@ -37,16 +35,15 @@
       "status": "to-do"
     },
     {
-      "id": "p0004",
-      "title": "Project 4",
-      "tags": [
-        "BI",
-        "AI",
-        "Python",
-        "NoSQL"
-      ],
+      "title": "Face Recognition",
       "description": "Originally published at Bugfender It's now more than 30 years since the first website was born. Its purpose, you ask? To provide information about the World Wide Web, of course. In the three decades that have elapsed since then, we've created around...",
-      "status": "in-progress"
+      "status": "in-progress",
+      "tags": [
+        "Python",
+        "Web",
+        "AI"
+      ],
+      "id": "p0004"
     }
   ]
 }

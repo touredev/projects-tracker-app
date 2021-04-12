@@ -5,7 +5,7 @@ const ProjectsList = ({ projects, filterText }) => {
   const itemsList = [];
 
   projects.forEach((project, i) => {
-    if (project.title.toLowerCase().indexOf(filterText) === -1) {
+    if (project.title.toLowerCase().indexOf(filterText.toLowerCase()) === -1) {
       return;
     }
 

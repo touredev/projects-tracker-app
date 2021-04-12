@@ -1,10 +1,10 @@
 import Header from "./Header";
 import PropTypes from "prop-types";
 
-const Wrapper = ({ children, token, logout }) => {
+const Wrapper = ({ children, token }) => {
   return (
     <>
-      <Header title="Projects Tracker App" token={token} logout={logout} />
+      <Header title="Projects Tracker App" />
       <div className="container is-max-widescreen">{children}</div>
     </>
   );
@@ -16,7 +16,6 @@ Wrapper.defaultProps = {
 
 Wrapper.propTypes = {
   token: PropTypes.string,
-  logout: PropTypes.func,
   children: PropTypes.object,
 };
 

@@ -1,7 +1,21 @@
+import * as React from "react";
+import { AppContext } from "../context/AppContext";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const Header = ({ title, token, logout }) => {
+const Header = ({ title }) => {
+  const { userToken, dispatch } = React.useContext(AppContext);
+
+  // Logout
+  const logout = (event) => {
+    event.preventDefault();
+    sessionStorage.removeItem("react_auth_token");
+    dispatch({
+      type: "LOGOUT_USER",
+      payload: {},
+    });
+  };
+
   return (
     <header
       className="navbar is-light p-4"
@@ -36,7 +50,7 @@ const Header = ({ title, token, logout }) => {
         <div className="navbar-end pr-6">
           <div className="navbar-item">
             <div className="buttons">
-              {token ? (
+              {userToken ? (
                 <Link to="" onClick={logout} className="button is-link">
                   Logout
                 </Link>
@@ -55,13 +69,10 @@ const Header = ({ title, token, logout }) => {
 
 Header.defaultProps = {
   title: "Projects Tracker App",
-  token: "",
 };
 
 Header.propTypes = {
   title: PropTypes.string.isRequired,
-  token: PropTypes.string,
-  logout: PropTypes.func,
 };
 
 export default Header;

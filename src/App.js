@@ -1,47 +1,39 @@
+import * as React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Wrapper from "./components/Wrapper";
 import Home from "./pages/Home";
 import ProjectDetails from "./pages/ProjectDetails";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
-import useToken from "./useToken";
+import { AppProvider } from "./context/AppContext";
 
 function App() {
-  const { token, setToken } = useToken();
-
-  // Logout
-  const logout = (event) => {
-    event.preventDefault();
-    sessionStorage.removeItem("react_auth_token");
-    setToken("");
-  };
-
   return (
-    <Router>
-      <>
+    <AppProvider>
+      <Router>
         <Switch>
           <Route path="/login">
-            <Login setToken={setToken} token={token} />
+            <Login />
           </Route>
           <Route path="/home">
-            <Wrapper token={token} logout={logout}>
+            <Wrapper>
               <Home />
             </Wrapper>
           </Route>
           <Route path="/projects/:projectId">
-            <Wrapper token={token} logout={logout}>
+            <Wrapper>
               <ProjectDetails />
             </Wrapper>
           </Route>
           <Route path="/" exact>
-            <Wrapper token={token} logout={logout}>
+            <Wrapper>
               <Home />
             </Wrapper>
           </Route>
           <Route component={NotFound} />
         </Switch>
-      </>
-    </Router>
+      </Router>
+    </AppProvider>
   );
 }
 
