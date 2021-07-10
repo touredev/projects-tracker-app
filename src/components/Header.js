@@ -9,7 +9,7 @@ const Header = ({ title }) => {
   // Logout
   const logout = (event) => {
     event.preventDefault();
-    sessionStorage.removeItem("react_auth_token");
+    sessionStorage.removeItem("react_data");
     dispatch({
       type: "LOGOUT_USER",
       payload: {},
