@@ -1,8 +1,9 @@
+import * as React from "react";
 import { Link } from "react-router-dom";
+import { IProjectItem } from "../types/projectTypes";
 import styled from "styled-components";
 import { IconContext } from "react-icons";
 import { TiStarburst } from "react-icons/ti";
-import PropTypes from "prop-types";
 
 const titleStyle = {
   color: "rgba(51, 51, 51, 1)",
@@ -22,16 +23,25 @@ const Tags = styled.div`
   flex-direction: row;
 `;
 
-const iconColor = (status) => {
-  const colors = {
-    "in-progress": "yellow !important",
-    done: "green",
-    "to-do": "red",
-  };
-  return colors[status];
+interface ColorMap {
+  [name: string]: string
+}
+
+interface ProjectProps extends IProjectItem {
+  id: number
 };
 
-const Project = ({ id, title, tags, description, status }) => {
+const statusColors: ColorMap = {
+  "in-progress": "yellow !important",
+  "done": "green",
+  "to-do": "red",
+};
+
+const iconColor = (status: string) => {
+  return statusColors[status];
+};
+
+const Project = ({ id, title="Project", tags, description, status }: ProjectProps) => {
   return (
     <div className="section m-0 pt-0 pb-5">
       <div className="is-flex">
@@ -73,18 +83,6 @@ const Project = ({ id, title, tags, description, status }) => {
       </div>
     </div>
   );
-};
-
-Project.defaultProps = {
-  title: "Project",
-};
-
-Project.propTypes = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  tags: PropTypes.array.isRequired,
-  description: PropTypes.string,
-  status: PropTypes.string.isRequired,
 };
 
 export default Project;

@@ -1,5 +1,5 @@
+import * as React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
 const Container = styled.div`
   margin: 3rem auto;
@@ -28,8 +28,13 @@ const Input = styled.input`
   }
 `;
 
-const Search = ({ searchText, onSearchTextChange }) => {
-  const changeText = (event) => onSearchTextChange(event.target.value);
+type SearchProps = {
+  searchText?: string,
+  onSearchTextChange: (textValue: string) => void
+};
+
+const Search = ({ searchText="", onSearchTextChange }: SearchProps) => {
+  const changeText = (event: React.ChangeEvent<HTMLInputElement>) => onSearchTextChange(event.target.value);
 
   return (
     <Container>
@@ -42,15 +47,6 @@ const Search = ({ searchText, onSearchTextChange }) => {
       />
     </Container>
   );
-};
-
-Search.defaultProps = {
-  searchText: "",
-};
-
-Search.propTypes = {
-  searchText: PropTypes.string.isRequired,
-  onSearchTextChange: PropTypes.func,
 };
 
 export default Search;

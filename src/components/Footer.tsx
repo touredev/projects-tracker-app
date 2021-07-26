@@ -1,3 +1,5 @@
+import React from "react";
+
 const Footer = () => {
   return (
     <footer className="d-flex pt-4 my-md-5 pt-md-5 mx-md-5 ps-4">

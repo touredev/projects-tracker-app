@@ -1,8 +1,25 @@
+import * as React from "react";
 import Project from "./Project";
-import PropTypes from "prop-types";
+import { IProjectItem } from "../types/projectTypes";
 
-const ProjectsList = ({ projects, filterText }) => {
-  const itemsList = [];
+interface ProjectItem extends IProjectItem {
+  id: number
+};
+
+type ProjectsListProps = {
+  projects: ProjectItem[],
+  filterText?: string
+};
+
+const ProjectElement = ({project}: {project: ProjectItem}) => {
+  return (<div className="column is-one-third" key={project.id}>
+          <Project {...project} />
+        </div>);
+};
+
+
+const ProjectsList = ({ projects, filterText="" }: ProjectsListProps) => {
+  const itemsList: Array<React.ReactElement> = [];
 
   projects.forEach((project, i) => {
     if (project.title.toLowerCase().indexOf(filterText.toLowerCase()) === -1) {
@@ -10,9 +27,7 @@ const ProjectsList = ({ projects, filterText }) => {
     }
 
     itemsList.push(
-      <div className="column is-one-third" key={i}>
-        <Project {...project} />
-      </div>
+      <ProjectElement project={project} />
     );
   });
 
@@ -30,16 +45,6 @@ const ProjectsList = ({ projects, filterText }) => {
       )}
     </div>
   );
-};
-
-ProjectsList.defaultProps = {
-  projects: [],
-  filterText: "",
-};
-
-ProjectsList.propTypes = {
-  projects: PropTypes.array,
-  filterText: PropTypes.string,
 };
 
 export default ProjectsList;

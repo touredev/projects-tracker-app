@@ -1,6 +1,7 @@
-import { useForm } from "react-hook-form";
+import * as React from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
-import PropTypes from "prop-types";
+import { IProjectItem } from "../types/projectTypes";
 
 const FormWrapper = styled.div`
   padding: 2rem;
@@ -32,14 +33,22 @@ const tagsList = [
   "BI",
 ];
 
-const ProjectForm = ({ project, formAction, setEditing }) => {
+interface IFormInputs extends IProjectItem {}
+
+type ProjectFormProps = {
+  project: IProjectItem,
+  formAction: (data: IProjectItem) => void,
+  setEditing: (editingStatus: boolean) => void
+};
+
+const ProjectForm = ({ project, formAction, setEditing }: ProjectFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<IFormInputs>();
 
-  const onSubmit = async (data) => {
+  const onSubmit: SubmitHandler<IFormInputs> = async (data: IProjectItem) => {
     formAction({ ...data, id: project.id });
   };
 
@@ -79,8 +88,8 @@ const ProjectForm = ({ project, formAction, setEditing }) => {
               <div className="control">
                 <textarea
                   className="textarea"
-                  rows="7"
-                  cols="40"
+                  rows={7}
+                  cols={40}
                   defaultValue={description}
                   placeholder="Description"
                   {...register("description")}
@@ -158,16 +167,6 @@ const ProjectForm = ({ project, formAction, setEditing }) => {
       </form>
     </FormWrapper>
   );
-};
-
-ProjectForm.defaultProps = {
-  project: {},
-};
-
-ProjectForm.propTypes = {
-  project: PropTypes.object,
-  formAction: PropTypes.func.isRequired,
-  setEditing: PropTypes.func.isRequired,
 };
 
 export default ProjectForm;

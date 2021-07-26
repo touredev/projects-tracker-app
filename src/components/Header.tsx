@@ -1,20 +1,24 @@
 import * as React from "react";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../state/context";
+import { LogoutUser } from "../state/actions";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 
-const Header = ({ title }) => {
-  const { userToken, dispatch } = React.useContext(AppContext);
+type HeaderProps = {title?: string};
 
-  // Logout
-  const logout = (event) => {
-    event.preventDefault();
-    sessionStorage.removeItem("react_data");
-    dispatch({
-      type: "LOGOUT_USER",
-      payload: {},
-    });
-  };
+const Header = ({ title= "Projects Tracker App" }: HeaderProps) => {
+  const {
+    state: { userToken },
+    dispatch
+  } = React.useContext(AppContext);
+
+  const logout = React.useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement>) => {
+      event.preventDefault();
+      sessionStorage.removeItem("react_data");
+      dispatch(LogoutUser());
+    },
+    [dispatch]
+  );
 
   return (
     <header
@@ -65,14 +69,6 @@ const Header = ({ title }) => {
       </div>
     </header>
   );
-};
-
-Header.defaultProps = {
-  title: "Projects Tracker App",
-};
-
-Header.propTypes = {
-  title: PropTypes.string.isRequired,
 };
 
 export default Header;
