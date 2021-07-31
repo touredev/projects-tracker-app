@@ -1,13 +1,17 @@
 export enum StatusEnum {
   ToDo = "to-do",
   InProgress = "in-progress",
-  Done = "done"
+  Done = "done",
 }
 
 export interface IProjectItem {
-  id?: number,
-  title: string,
-  tags: string[],
-  description: string,
-  status: StatusEnum
-};
+  id?: number;
+  title: string;
+  tags: string[];
+  description: string;
+  status: StatusEnum;
+}
+
+export interface ColorMap {
+  [name: string]: string;
+}

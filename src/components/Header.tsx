@@ -1,18 +1,18 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { AppContext } from "../state/context";
 import { LogoutUser } from "../state/actions";
-import { Link } from "react-router-dom";
 
-type HeaderProps = {title?: string};
+type HeaderProps = { title?: string };
 
-const Header = ({ title= "Projects Tracker App" }: HeaderProps) => {
+const Header = ({ title }: HeaderProps): React.ReactElement => {
   const {
     state: { userToken },
-    dispatch
+    dispatch,
   } = React.useContext(AppContext);
 
   const logout = React.useCallback(
-    (event: React.MouseEvent<HTMLAnchorElement>) => {
+    (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
       sessionStorage.removeItem("react_data");
       dispatch(LogoutUser());
@@ -31,15 +31,16 @@ const Header = ({ title= "Projects Tracker App" }: HeaderProps) => {
           <h1 className="title is-3">{title}</h1>
         </Link>
         <a
+          href="#projectsTrackerMenu"
           role="button"
           className="navbar-burger"
           aria-label="menu"
           aria-expanded="false"
           data-target="projectsTrackerMenu"
         >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
         </a>
       </div>
       <div className="navbar-menu is-active" id="projectsTrackerMenu">
@@ -55,9 +56,13 @@ const Header = ({ title= "Projects Tracker App" }: HeaderProps) => {
           <div className="navbar-item">
             <div className="buttons">
               {userToken ? (
-                <Link to="" onClick={logout} className="button is-link">
+                <button
+                  type="button"
+                  onClick={logout}
+                  className="button is-link"
+                >
                   Logout
-                </Link>
+                </button>
               ) : (
                 <Link to="/login" className="button is-link">
                   Sign in
@@ -71,4 +76,7 @@ const Header = ({ title= "Projects Tracker App" }: HeaderProps) => {
   );
 };
 
+Header.defaultProps = {
+  title: "Projects Tracker App",
+};
 export default Header;

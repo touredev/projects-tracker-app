@@ -29,12 +29,16 @@ const Input = styled.input`
 `;
 
 type SearchProps = {
-  searchText?: string,
-  onSearchTextChange: (textValue: string) => void
+  searchText?: string;
+  onSearchTextChange: (textValue: string) => void;
 };
 
-const Search = ({ searchText="", onSearchTextChange }: SearchProps) => {
-  const changeText = (event: React.ChangeEvent<HTMLInputElement>) => onSearchTextChange(event.target.value);
+const Search = ({
+  searchText,
+  onSearchTextChange,
+}: SearchProps): React.ReactElement => {
+  const changeText = (event: React.ChangeEvent<HTMLInputElement>): void =>
+    onSearchTextChange(event.target.value);
 
   return (
     <Container>
@@ -49,4 +53,7 @@ const Search = ({ searchText="", onSearchTextChange }: SearchProps) => {
   );
 };
 
+Search.defaultProps = {
+  searchText: "",
+};
 export default Search;

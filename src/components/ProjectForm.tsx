@@ -33,22 +33,24 @@ const tagsList = [
   "BI",
 ];
 
-interface IFormInputs extends IProjectItem {}
-
 type ProjectFormProps = {
-  project: IProjectItem,
-  formAction: (data: IProjectItem) => void,
-  setEditing: (editingStatus: boolean) => void
+  project: IProjectItem;
+  formAction: (data: IProjectItem) => void;
+  setEditing: (editingStatus: boolean) => void;
 };
 
-const ProjectForm = ({ project, formAction, setEditing }: ProjectFormProps) => {
+const ProjectForm = ({
+  project,
+  formAction,
+  setEditing,
+}: ProjectFormProps): React.ReactElement => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormInputs>();
+  } = useForm<IProjectItem>();
 
-  const onSubmit: SubmitHandler<IFormInputs> = async (data: IProjectItem) => {
+  const onSubmit: SubmitHandler<IProjectItem> = async (data: IProjectItem) => {
     formAction({ ...data, id: project.id });
   };
 
@@ -60,7 +62,9 @@ const ProjectForm = ({ project, formAction, setEditing }: ProjectFormProps) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="field is-horizontal">
           <div className="field-label is-normal">
-            <label className="label">Title: </label>
+            <label className="label" htmlFor="title">
+              Title:
+            </label>
           </div>
           <div className="field-body">
             <div className="field">
@@ -81,7 +85,9 @@ const ProjectForm = ({ project, formAction, setEditing }: ProjectFormProps) => {
         </div>
         <div className="field is-horizontal">
           <div className="field-label is-normal">
-            <label className="label">Description: </label>
+            <label className="label" htmlFor="description">
+              Description:
+            </label>
           </div>
           <div className="field-body">
             <div className="field">
@@ -100,7 +106,9 @@ const ProjectForm = ({ project, formAction, setEditing }: ProjectFormProps) => {
         </div>
         <div className="field is-horizontal">
           <div className="field-label is-normal">
-            <label className="label">Status:</label>
+            <label className="label" htmlFor="status">
+              Status:
+            </label>
           </div>
           <div className="field-body">
             <div className="field is-narrow">
@@ -120,7 +128,9 @@ const ProjectForm = ({ project, formAction, setEditing }: ProjectFormProps) => {
         </div>
         <div className="field is-horizontal pt-3">
           <div className="field-label">
-            <label className="label">Tags:</label>
+            <label className="label" htmlFor="tags">
+              Tags:
+            </label>
           </div>
           <div className="field-body">
             <div className="field is-grouped is-flex is-flex-wrap-wrap">
@@ -143,7 +153,7 @@ const ProjectForm = ({ project, formAction, setEditing }: ProjectFormProps) => {
           </div>
         </div>
         <div className="field is-horizontal pt-4 pl-3">
-          <div className="field-label"></div>
+          <div className="field-label" />
           <div className="field-body">
             <div className="field is-grouped">
               <div className="control">
@@ -155,6 +165,7 @@ const ProjectForm = ({ project, formAction, setEditing }: ProjectFormProps) => {
               </div>
               <div className="control">
                 <button
+                  type="button"
                   className="button is-link is-light"
                   onClick={() => setEditing(false)}
                 >

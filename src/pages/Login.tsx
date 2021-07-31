@@ -1,8 +1,9 @@
 import * as React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { Redirect } from "react-router-dom";
 import styled from "styled-components";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../state/context";
+import { LoginUser, User } from "../state/actions";
 
 const FormContainer = styled.div`
   display: flex;
@@ -30,32 +31,42 @@ const SubmitButton = styled.input`
   cursor: pointer;
 `;
 
+interface ILoginInputs {
+  username: string;
+  password: string;
+}
+
 const Login = () => {
-  const { userToken, dispatch } = React.useContext(AppContext);
+  const {
+    state: { userToken },
+    dispatch,
+  } = React.useContext(AppContext);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<ILoginInputs>();
 
   // Login
-  const loginUser = ({ username, password }) => {
-    const authToken =
-      Math.random().toString(36).substring(2, 15) +
-      Math.random().toString(36).substring(2, 15);
-    const payload = { userToken: authToken, user: { username } };
-    sessionStorage.setItem("react_data", JSON.stringify({ ...payload }));
-    dispatch({
-      type: "LOGIN_USER",
-      payload: { ...payload },
-    });
-  };
+  const login = React.useCallback(
+    ({ username, password }) => {
+      const authToken =
+        Math.random().toString(36).substring(2, 15) +
+        Math.random().toString(36).substring(2, 15);
+      const user: User = { username };
+      sessionStorage.setItem(
+        "react_data",
+        JSON.stringify({ user, userToken: authToken })
+      );
+      dispatch(LoginUser(user, authToken));
+    },
+    [dispatch]
+  );
 
-  const onSubmit = (data) => {
-    console.log(data);
-    loginUser(data);
-  };
+  const onSubmit: SubmitHandler<ILoginInputs> = (data: ILoginInputs) => {
+    login(data);
+  }
 
   if (userToken) {
     return <Redirect to={"/"} />;
@@ -93,5 +104,5 @@ const Login = () => {
       </form>
     </div>
   );
-};
+}
 export default Login;

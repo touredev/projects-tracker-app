@@ -1,8 +1,12 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import styled from "styled-components";
 import NotFound from "./NotFound";
 import ProjectForm from "../components/ProjectForm";
+import { IProjectItem } from "../types/projectTypes";
+import { get, put } from "../services/http";
+
+const URL = "http://localhost:5000/projects";
 
 const Container = styled.div`
   margin: 0 auto;
@@ -52,45 +56,34 @@ const badgeStyle = {
 };
 
 const ProjectDetails = () => {
-  const { projectId } = useParams();
-  const [project, setProject] = useState({});
+  const { projectId } = useParams<{ projectId: string }>();
+  const [project, setProject] = useState<IProjectItem | undefined>(
+    {} as IProjectItem
+  );
   const [isLoading, setLoading] = useState(true);
   const [isEditing, setEditing] = useState(false);
-
-  console.log(projectId);
 
   useEffect(() => {
     const getProject = async () => {
       const currentProject = await fetchProject(projectId);
       setProject(currentProject);
       setLoading(false);
-    };
+    }
 
     getProject();
   }, []);
 
   // Fetch Project by ID
-  const fetchProject = async (id) => {
-    const res = await fetch(`http://localhost:5000/projects/${id}`);
-    const data = await res.json();
-    console.log(data);
-    return data;
-  };
+  const fetchProject = useCallback(async (id: string) => {
+    const res = await get<IProjectItem>(URL + `/${id}`);
+    return res.parsedBody;
+  }, []);
 
-  const updateProject = async (data) => {
-    let res = await fetch(`http://localhost:5000/projects/${data.id}`, {
-      method: "PUT",
-      body: JSON.stringify({ ...data }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    });
-
-    res = await res.json();
-    console.log(res);
-    setProject(res);
+  const updateProject = async (data: IProjectItem) => {
+    const res = await put<IProjectItem>(URL + `/${data.id}`, { ...data });
+    setProject(res.parsedBody);
     setEditing(false);
-  };
+  }
 
   if (isLoading) {
     return null;
@@ -110,7 +103,7 @@ const ProjectDetails = () => {
             setEditing={setEditing}
           />
         </FormContainer>
-      ) : (
+          ) : (
         <Container>
           <h3 className="title is-3">{project.title}</h3>
           <ul>
@@ -118,7 +111,7 @@ const ProjectDetails = () => {
               <span>Status:</span>
               <p
                 className={`tag is-medium ${badgeStyle[project.status]}`}
-                style={{ fontWeight: "500", textTransform: "uppercase" }}
+                style={{ fontWeight: 500, textTransform: "uppercase" }}
               >
                 {project.status}
               </p>
@@ -157,9 +150,9 @@ const ProjectDetails = () => {
             </Link>
           </div>
         </Container>
-      )}
+          )}
     </>
   );
-};
+}
 
 export default ProjectDetails;

@@ -4,33 +4,20 @@
       "title": "Open Airlines",
       "description": "A bit of Background Kids spending time on phones, tablets, computers is not very unnatural nowadays. Indeed lots to learn from online resources, apps, books, etc. The problem at my home was a bit different, though. My daughter felt it quite dull 🙄 t...",
       "status": "in-progress",
-      "tags": [
-        "API",
-        "Python",
-        "PostgreSQL",
-        "Web"
-      ],
+      "tags": ["API", "Python", "PostgreSQL", "Web"],
       "id": "p0001"
     },
     {
       "title": "SortyUrl",
       "description": "Today the world is fast, hectic, and demanding. Everyone is in a rush to meet deadlines, making decisions, accomplishing goals, receiving rewards. From getting things done in seconds using smartphones to e-shops delivering products using drones, spee...",
       "status": "in-progress",
-      "tags": [
-        "API",
-        "React",
-        "NodeJs"
-      ],
+      "tags": ["API", "React", "NodeJs"],
       "id": "p0002"
     },
     {
       "id": "p0003",
       "title": "Project 3",
-      "tags": [
-        "Java",
-        "Spring",
-        "Microservices"
-      ],
+      "tags": ["Java", "Spring", "Microservices"],
       "description": "Gatsby is one of the most popular Static Site Generators available to create pre-built markups for Jamstack apps. It is a React-based framework that offers a plethora of plug-in ecosystems to make life comfortable for the developer community. I have ...",
       "status": "to-do"
     },
@@ -38,11 +25,7 @@
       "title": "Face Recognition",
       "description": "Originally published at Bugfender It's now more than 30 years since the first website was born. Its purpose, you ask? To provide information about the World Wide Web, of course. In the three decades that have elapsed since then, we've created around...",
       "status": "in-progress",
-      "tags": [
-        "Python",
-        "Web",
-        "AI"
-      ],
+      "tags": ["Python", "Web", "AI"],
       "id": "p0004"
     }
   ]

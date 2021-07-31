@@ -3,32 +3,37 @@ import Project from "./Project";
 import { IProjectItem } from "../types/projectTypes";
 
 interface ProjectItem extends IProjectItem {
-  id: number
-};
+  id: number;
+}
 
 type ProjectsListProps = {
-  projects: ProjectItem[],
-  filterText?: string
+  projects: ProjectItem[] | undefined;
+  filterText?: string;
 };
 
-const ProjectElement = ({project}: {project: ProjectItem}) => {
-  return (<div className="column is-one-third" key={project.id}>
-          <Project {...project} />
-        </div>);
+const ProjectElement = ({ project }: { project: ProjectItem }): JSX.Element => {
+  return (
+    <div className="column is-one-third" key={project.id}>
+      <Project {...project} />
+    </div>
+  );
 };
 
+const ProjectsList = ({
+  projects,
+  filterText = "",
+}: ProjectsListProps): React.ReactNode => {
+  if (!projects) {
+    return null;
+  }
 
-const ProjectsList = ({ projects, filterText="" }: ProjectsListProps) => {
   const itemsList: Array<React.ReactElement> = [];
-
-  projects.forEach((project, i) => {
+  projects.forEach((project) => {
     if (project.title.toLowerCase().indexOf(filterText.toLowerCase()) === -1) {
       return;
     }
 
-    itemsList.push(
-      <ProjectElement project={project} />
-    );
+    itemsList.push(<ProjectElement project={project} />);
   });
 
   return (
@@ -45,6 +50,10 @@ const ProjectsList = ({ projects, filterText="" }: ProjectsListProps) => {
       )}
     </div>
   );
+};
+
+ProjectsList.defaultProps = {
+  filterText: "",
 };
 
 export default ProjectsList;

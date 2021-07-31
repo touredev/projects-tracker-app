@@ -9,16 +9,19 @@ export type User = {
 
 interface ILoginUser {
   type: ActionType.LoginUser;
-  payload: {user: User|null, userToken: string};
+  payload: { user: User | null; userToken: string };
 }
 
 interface ILogoutUser {
   type: ActionType.LogoutUser;
 }
 
-export const LoginUser = (user: User|null, userToken: string): ILoginUser => ({
+export const LoginUser = (
+  user: User | null,
+  userToken: string
+): ILoginUser => ({
   type: ActionType.LoginUser,
-  payload: {user, userToken}
+  payload: { user, userToken },
 });
 
 export const LogoutUser = (): ILogoutUser => ({

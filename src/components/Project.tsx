@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { IProjectItem } from "../types/projectTypes";
 import styled from "styled-components";
 import { IconContext } from "react-icons";
 import { TiStarburst } from "react-icons/ti";
+import { IProjectItem, ColorMap } from "../types/projectTypes";
 
 const titleStyle = {
   color: "rgba(51, 51, 51, 1)",
@@ -23,25 +23,27 @@ const Tags = styled.div`
   flex-direction: row;
 `;
 
-interface ColorMap {
-  [name: string]: string
-}
-
 interface ProjectProps extends IProjectItem {
-  id: number
-};
+  id: number;
+}
 
 const statusColors: ColorMap = {
   "in-progress": "yellow !important",
-  "done": "green",
+  done: "green",
   "to-do": "red",
 };
 
-const iconColor = (status: string) => {
+const iconColor = (status: string): string => {
   return statusColors[status];
 };
 
-const Project = ({ id, title="Project", tags, description, status }: ProjectProps) => {
+const Project = ({
+  id,
+  title,
+  tags,
+  description,
+  status,
+}: ProjectProps): React.ReactElement => {
   return (
     <div className="section m-0 pt-0 pb-5">
       <div className="is-flex">

@@ -2,7 +2,7 @@ import * as React from "react";
 import { AppActions, ActionType, User } from "./actions";
 
 interface IAppState {
-  user: User|null;
+  user: User | null;
   userToken: string;
 }
 
@@ -13,12 +13,12 @@ interface IAppContext {
 
 const initialState: IAppState = {
   user: null,
-  userToken: ""
+  userToken: "",
 };
 
 export const AppContext = React.createContext<IAppContext>({
   state: initialState,
-  dispatch: () => null
+  dispatch: () => null,
 });
 
 const AppReducer = (state: IAppState, action: AppActions) => {
@@ -44,12 +44,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = React.useReducer(AppReducer, {}, () => {
     const localData = sessionStorage.getItem("react_data");
     return localData ? JSON.parse(localData) : initialState;
-  });
+  })
 
   return (
-    <AppContext.Provider value={{ state, dispatch }} >
+    <AppContext.Provider value={{ state, dispatch }}>
       {children}
     </AppContext.Provider>
   );
-};
-
+}

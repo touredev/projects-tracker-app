@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import ProjectDetails from "./pages/ProjectDetails";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
-import { AppProvider } from "./context/AppContext";
+import { AppProvider } from "./state/context";
 
 function App() {
   return (

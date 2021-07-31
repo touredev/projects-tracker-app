@@ -1,10 +1,14 @@
 import * as React from "react";
 import Header from "./Header";
 
-const Wrapper = ({ children }: {children: React.ReactNode}) => {
+const Wrapper = ({
+  children,
+}: {
+  children: React.ReactNode;
+}): React.ReactElement => {
   return (
     <>
-      <Header title={"Projects Tracker App"} />
+      <Header title="Projects Tracker App" />
       <div className="container is-max-widescreen">{children}</div>
     </>
   );
