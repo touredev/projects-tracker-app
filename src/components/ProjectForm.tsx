@@ -135,9 +135,9 @@ const ProjectForm = ({
           <div className="field-body">
             <div className="field is-grouped is-flex is-flex-wrap-wrap">
               <div className="control" style={{ maxWidth: "100%" }}>
-                {tagsList.map((t, i) => {
+                {tagsList.map((t) => {
                   return (
-                    <label className="checkbox pr-3 pb-3" key={i}>
+                    <label className="checkbox pr-3 pb-3" key={t}>
                       <input
                         type="checkbox"
                         value={t}

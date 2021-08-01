@@ -21,7 +21,7 @@ const Container = styled.div`
     padding: 0.5em;
   }
 `;
-const NotFound = () => {
+const NotFound = (): React.ReactElement => {
   return (
     <Container>
       <h1>404</h1>
@@ -29,6 +29,6 @@ const NotFound = () => {
       <Link to="/">Go Home</Link>
     </Container>
   );
-}
+};
 
 export default NotFound;

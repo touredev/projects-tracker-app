@@ -11,7 +11,7 @@ export async function get<T>(
   path: string,
   args: RequestInit = { method: "get" }
 ): Promise<HttpResponse<T>> {
-  return await http<T>(new Request(path, args));
+  return http<T>(new Request(path, args));
 }
 
 export async function post<T>(
@@ -23,7 +23,7 @@ export async function post<T>(
     headers: { "Content-type": "application/json; charset=UTF-8" },
   }
 ): Promise<HttpResponse<T>> {
-  return await http<T>(new Request(path, args));
+  return http<T>(new Request(path, args));
 }
 
 export async function put<T>(
@@ -35,5 +35,5 @@ export async function put<T>(
     headers: { "Content-type": "application/json; charset=UTF-8" },
   }
 ): Promise<HttpResponse<T>> {
-  return await http<T>(new Request(path, args));
+  return http<T>(new Request(path, args));
 }

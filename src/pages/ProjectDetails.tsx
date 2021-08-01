@@ -55,7 +55,7 @@ const badgeStyle = {
   "to-do": "is-danger",
 };
 
-const ProjectDetails = () => {
+const ProjectDetails = (): React.ReactElement => {
   const { projectId } = useParams<{ projectId: string }>();
   const [project, setProject] = useState<IProjectItem | undefined>(
     {} as IProjectItem
@@ -63,30 +63,31 @@ const ProjectDetails = () => {
   const [isLoading, setLoading] = useState(true);
   const [isEditing, setEditing] = useState(false);
 
-  useEffect(() => {
-    const getProject = async () => {
-      const currentProject = await fetchProject(projectId);
-      setProject(currentProject);
-      setLoading(false);
-    }
-
-    getProject();
-  }, []);
-
   // Fetch Project by ID
   const fetchProject = useCallback(async (id: string) => {
-    const res = await get<IProjectItem>(URL + `/${id}`);
+    const res = await get<IProjectItem>(`${URL}/${id}`);
     return res.parsedBody;
   }, []);
 
-  const updateProject = async (data: IProjectItem) => {
-    const res = await put<IProjectItem>(URL + `/${data.id}`, { ...data });
+  const updateProject = async (data: IProjectItem): Promise<void> => {
+    const res = await put<IProjectItem>(`${URL}/${data.id}`, { ...data });
     setProject(res.parsedBody);
     setEditing(false);
-  }
+  };
+
+  // Executed once projectId or fetchProject change
+  useEffect(() => {
+    const getProject = async (): Promise<void> => {
+      const currentProject = await fetchProject(projectId);
+      setProject(currentProject);
+      setLoading(false);
+    };
+
+    getProject();
+  }, [projectId, fetchProject]);
 
   if (isLoading) {
-    return null;
+    return <></>;
   }
 
   if (!project?.id) {
@@ -103,7 +104,7 @@ const ProjectDetails = () => {
             setEditing={setEditing}
           />
         </FormContainer>
-          ) : (
+      ) : (
         <Container>
           <h3 className="title is-3">{project.title}</h3>
           <ul>
@@ -140,6 +141,7 @@ const ProjectDetails = () => {
           </ul>
           <div className="buttons">
             <button
+              type="button"
               className="button is-link mr-2"
               onClick={() => setEditing(true)}
             >
@@ -150,9 +152,9 @@ const ProjectDetails = () => {
             </Link>
           </div>
         </Container>
-          )}
+      )}
     </>
   );
-}
+};
 
 export default ProjectDetails;

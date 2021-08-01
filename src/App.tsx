@@ -7,7 +7,7 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import { AppProvider } from "./state/context";
 
-function App() {
+function App(): React.ReactElement {
   return (
     <AppProvider>
       <Router>

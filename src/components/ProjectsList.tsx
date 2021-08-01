@@ -13,7 +13,7 @@ type ProjectsListProps = {
 
 const ProjectElement = ({ project }: { project: ProjectItem }): JSX.Element => {
   return (
-    <div className="column is-one-third" key={project.id}>
+    <div className="column is-one-third">
       <Project {...project} />
     </div>
   );
@@ -22,9 +22,9 @@ const ProjectElement = ({ project }: { project: ProjectItem }): JSX.Element => {
 const ProjectsList = ({
   projects,
   filterText = "",
-}: ProjectsListProps): React.ReactNode => {
+}: ProjectsListProps): React.ReactElement => {
   if (!projects) {
-    return null;
+    return <></>;
   }
 
   const itemsList: Array<React.ReactElement> = [];
@@ -33,7 +33,7 @@ const ProjectsList = ({
       return;
     }
 
-    itemsList.push(<ProjectElement project={project} />);
+    itemsList.push(<ProjectElement project={project} key={project.id} />);
   });
 
   return (

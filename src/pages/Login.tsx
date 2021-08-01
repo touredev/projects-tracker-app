@@ -36,7 +36,7 @@ interface ILoginInputs {
   password: string;
 }
 
-const Login = () => {
+const Login = (): React.ReactElement => {
   const {
     state: { userToken },
     dispatch,
@@ -50,7 +50,7 @@ const Login = () => {
 
   // Login
   const login = React.useCallback(
-    ({ username, password }) => {
+    ({ username }) => {
       const authToken =
         Math.random().toString(36).substring(2, 15) +
         Math.random().toString(36).substring(2, 15);
@@ -66,10 +66,10 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<ILoginInputs> = (data: ILoginInputs) => {
     login(data);
-  }
+  };
 
   if (userToken) {
-    return <Redirect to={"/"} />;
+    return <Redirect to="/" />;
   }
 
   return (
@@ -104,5 +104,5 @@ const Login = () => {
       </form>
     </div>
   );
-}
+};
 export default Login;

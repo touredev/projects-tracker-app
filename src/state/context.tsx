@@ -21,7 +21,7 @@ export const AppContext = React.createContext<IAppContext>({
   dispatch: () => null,
 });
 
-const AppReducer = (state: IAppState, action: AppActions) => {
+const AppReducer = (state: IAppState, action: AppActions): IAppState => {
   switch (action.type) {
     case ActionType.LoginUser:
       return {
@@ -40,15 +40,19 @@ const AppReducer = (state: IAppState, action: AppActions) => {
   }
 };
 
-export const AppProvider = ({ children }: { children: React.ReactNode }) => {
+export const AppProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}): React.ReactElement => {
   const [state, dispatch] = React.useReducer(AppReducer, {}, () => {
     const localData = sessionStorage.getItem("react_data");
     return localData ? JSON.parse(localData) : initialState;
-  })
+  });
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>
       {children}
     </AppContext.Provider>
   );
-}
+};
